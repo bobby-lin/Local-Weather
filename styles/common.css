@@ -1,0 +1,23 @@
+table {
+    width: 500px;
+    height: 500px;
+}
+
+.header {
+    margin-top: 75px;
+    margin-bottom: 100px;
+}
+
+.weather-data {
+    font-size: 50px;
+}
+
+.temperature {
+    font-size: 75px;
+}
+
+#weather-icon {
+    width: 100px;
+    height: 100px;
+    image-rendering: auto;
+}
