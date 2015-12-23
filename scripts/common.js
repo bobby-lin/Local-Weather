@@ -28,14 +28,19 @@ function getWeatherJSON() {
     })
 }
 
-$(document).ready(function() {
-    setOpenWeatherAPI();
-    if(navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
+function setCoordinates() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
             latitude = position.coords.latitude;
             longitude = position.coords.longitude;
             console.log("Lat: " + latitude + " Long: " + longitude);
-            getWeatherJSON();
+
         });
     }
+}
+
+$(document).ready(function() {
+    setOpenWeatherAPI();
+    setCoordinates();
+    getWeatherJSON();
 });
