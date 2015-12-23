@@ -22,12 +22,12 @@ $(document).ready(function() {
             if (imperial_metric.indexOf(country) === -1) {
                 var temp_celsius = temp_kelvin - 273.15;
                 displayTemp = temp_celsius.toFixed(1);
-                displayTempUnit = "C";
+                displayTempUnit = "&#x2103";
             }
             else {
                 var temp_fahrenheit = temp_kelvin * 9 / 5 - 459.67;
                 displayTemp = temp_fahrenheit.toFixed(1);
-                displayTempUnit = "F";
+                displayTempUnit = "&#x2109";
             }
             return {displayTemp: displayTemp, displayTempUnit: displayTempUnit};
         }
@@ -35,22 +35,21 @@ $(document).ready(function() {
         var loc = "";
         var city = json.name;
         var country = json.sys.country;
-        loc += "<div class='location-data'>";
-        loc += "<b>City: </b>" + city + "<br>";
-        loc += "<b>Country: </b>" + country + "<br>";
-        loc += "</div>";
-
-        var weatherArr = json.weather[0];                
-        var weather_conditions = "";
+        loc += city + ", " + country;
+        $(".location").html(loc);
+        
+        var weatherArr = json.weather[0];
         var icon = weatherArr.icon;
         var description = weatherArr.description;
         var temp_obj = getTemperature();
-        weather_conditions += "<b>Temperature: </b>" + temp_obj.displayTemp + " " + temp_obj.displayTempUnit +"<br>";
-        weather_conditions += "<b>Weather: </b> <img src='http://openweathermap.org/img/w/" + icon + ".png'>";
-        weather_conditions += " " + description + "<br>";
-        weather_conditions += "</div>";
+        var temp = temp_obj.displayTemp + " " + temp_obj.displayTempUnit;
+        var weather_icon = "<img src='http://openweathermap.org/img/w/" + icon + ".png'>";
+        description = description.charAt(0).toUpperCase() + description.slice(1);
+        var weather_data = "<h5>" + description + "</h5>";
 
-        $(".weather").append(loc,weather_conditions);
+        $(".weather-data").html(weather_data);
+        $(".weather-icon").html(weather_icon);
+        $(".temperature").html(temp);
     }
     
     function initWeather(lat,long,key) {
