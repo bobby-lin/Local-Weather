@@ -48,6 +48,30 @@ $(document).ready(function() {
             return {displayTemp: displayTemp, displayTempUnit: displayTempUnit};
         }
         
+        function getBackgroundURL(type) {
+            if(type === "thunderstorm") {
+                return "http://tinyurl.com/ocz7m99";
+            }
+            else if(type === "drizzle") {
+                return "http://tinyurl.com/nssuuxq";
+            }
+            else if(type === "rain") {
+                return "http://tinyurl.com/nn9qzao";
+            }
+            else if(type === "snow") {
+                return "http://tinyurl.com/na3ba2a";
+            }
+            else if(type === "clear") {
+                return "http://tinyurl.com/hrsdo9f";
+            }
+            else if(type === "clouds") {
+                return "http://tinyurl.com/zl6mhd4";
+            }
+            else {
+                return "http://tinyurl.com/zehm5ru";
+            }
+        }
+        
         var loc = "";
         var city = json.name;
         var country = json.sys.country;
@@ -57,6 +81,7 @@ $(document).ready(function() {
         var weatherArr = json.weather[0];
         var icon = weatherArr.icon;
         var description = weatherArr.description;
+        var bg_url = getBackgroundURL(weatherArr.main.toLowerCase());
         var temp_obj = getTemperature();
         var temp = "<p id='currentTemp'>" + temp_obj.displayTemp + " " + temp_obj.displayTempUnit  + "</p>";
         var weather_icon = "<img id='weather-icon' src='http://openweathermap.org/img/w/" + icon + ".png'>";
@@ -66,6 +91,8 @@ $(document).ready(function() {
         $(".weather-data").html(weather_data);
         $(".weather-icon").html(weather_icon);
         $(".temperature").html(temp);
+        var html = document.getElementsByTagName('html')[0];
+        html.style.backgroundImage = "url('" + bg_url + "')";
     }
     
     function initWeather(lat,long,key) {
