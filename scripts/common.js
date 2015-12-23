@@ -3,6 +3,22 @@
  *     Author: Bobby Lin
  */
 
+function toggleTemperature() {
+    var e = document.getElementById("currentTemp");
+    var tempArr = e.innerHTML.split(" ");
+    var temp = tempArr[0];
+    var unit = tempArr[1];
+    if(unit.trim() === "℃") {
+        unit = "℉";
+        temp = (temp * 1.8 + 32).toFixed(1);
+    } 
+    else {
+        unit = "℃";
+        temp = ((temp - 32) / 1.8).toFixed(1);
+    }
+    e.innerHTML = temp + " " + unit;
+}
+
 $(document).ready(function() {
     function initOpenWeatherAPI() {
         $.getJSON("config.json", function(json) {
@@ -22,12 +38,12 @@ $(document).ready(function() {
             if (imperial_metric.indexOf(country) === -1) {
                 var temp_celsius = temp_kelvin - 273.15;
                 displayTemp = temp_celsius.toFixed(1);
-                displayTempUnit = "&#x2103";
+                displayTempUnit = "℃";
             }
             else {
                 var temp_fahrenheit = temp_kelvin * 9 / 5 - 459.67;
                 displayTemp = temp_fahrenheit.toFixed(1);
-                displayTempUnit = "&#x2109";
+                displayTempUnit = "℉";
             }
             return {displayTemp: displayTemp, displayTempUnit: displayTempUnit};
         }
@@ -42,10 +58,10 @@ $(document).ready(function() {
         var icon = weatherArr.icon;
         var description = weatherArr.description;
         var temp_obj = getTemperature();
-        var temp = temp_obj.displayTemp + " " + temp_obj.displayTempUnit;
-        var weather_icon = "<img src='http://openweathermap.org/img/w/" + icon + ".png'>";
+        var temp = "<p id='currentTemp'>" + temp_obj.displayTemp + " " + temp_obj.displayTempUnit  + "</p>";
+        var weather_icon = "<img id='weather-icon' src='http://openweathermap.org/img/w/" + icon + ".png'>";
         description = description.charAt(0).toUpperCase() + description.slice(1);
-        var weather_data = "<h5>" + description + "</h5>";
+        var weather_data = description;
 
         $(".weather-data").html(weather_data);
         $(".weather-icon").html(weather_icon);
