@@ -14,15 +14,43 @@ $(document).ready(function() {
     }
 
     function setAttributes(json) {
-        var weatherArr = json.weather[0];
-        var html = "";
-        html += "<div class='weather-data'>";
-        html += "<b>Lat:</b> " + json.coord.lat + "<br>";
-        html += "<b>Lon:</b> " + json.coord.lon + "<br>";
-        html += "<b>City:</b> " + json.name + "<br>";
-        html += "<b>Country:</b> " + json.sys.country + "<br>";
-        html += "<b>Weather:</b> " + weatherArr.description + "<br>";
-        $(".weather").html(html);
+        function getTemperature() {
+            var temp_kelvin = json.main.temp;
+            var displayTemp = 0;
+            var displayTempUnit = "";
+            var imperial_metric = ['US', 'BS', 'BZ', 'KY', 'PW'];
+            if (imperial_metric.indexOf(country) === -1) {
+                var temp_celsius = temp_kelvin - 273.15;
+                displayTemp = temp_celsius.toFixed(1);
+                displayTempUnit = "C";
+            }
+            else {
+                var temp_fahrenheit = temp_kelvin * 9 / 5 - 459.67;
+                displayTemp = temp_fahrenheit.toFixed(1);
+                displayTempUnit = "F";
+            }
+            return {displayTemp: displayTemp, displayTempUnit: displayTempUnit};
+        }
+        
+        var loc = "";
+        var city = json.name;
+        var country = json.sys.country;
+        loc += "<div class='location-data'>";
+        loc += "<b>City: </b>" + city + "<br>";
+        loc += "<b>Country: </b>" + country + "<br>";
+        loc += "</div>";
+
+        var weatherArr = json.weather[0];                
+        var weather_conditions = "";
+        var icon = weatherArr.icon;
+        var description = weatherArr.description;
+        var temp_obj = getTemperature();
+        weather_conditions += "<b>Temperature: </b>" + temp_obj.displayTemp + " " + temp_obj.displayTempUnit +"<br>";
+        weather_conditions += "<b>Icon: </b> <img src='http://openweathermap.org/img/w/" + icon + ".png'><br>";
+        weather_conditions += "<b>Weather: </b>" + description + "<br>";
+        weather_conditions += "</div>";
+
+        $(".weather").append(loc,weather_conditions);
     }
     
     function initWeather(lat,long,key) {
