@@ -46,8 +46,8 @@ $(document).ready(function() {
         var description = weatherArr.description;
         var temp_obj = getTemperature();
         weather_conditions += "<b>Temperature: </b>" + temp_obj.displayTemp + " " + temp_obj.displayTempUnit +"<br>";
-        weather_conditions += "<b>Icon: </b> <img src='http://openweathermap.org/img/w/" + icon + ".png'><br>";
-        weather_conditions += "<b>Weather: </b>" + description + "<br>";
+        weather_conditions += "<b>Weather: </b> <img src='http://openweathermap.org/img/w/" + icon + ".png'>";
+        weather_conditions += " " + description + "<br>";
         weather_conditions += "</div>";
 
         $(".weather").append(loc,weather_conditions);
