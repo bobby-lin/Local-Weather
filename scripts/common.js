@@ -20,14 +20,22 @@ function setOpenWeatherAPI() {
     });
 }
 
+function getWeatherJSON() {
+    var url = "http://api.openweathermap.org/data/2.5/weather?lat="+latitude + "&lon=" + longitude;
+    url += "&APPID=" + openWeather;
+    $.getJSON(url,function(json) {
+        console.log(json);
+    })
+}
+
 $(document).ready(function() {
     setOpenWeatherAPI();
-    
     if(navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
             latitude = position.coords.latitude;
             longitude = position.coords.longitude;
-            console.log("Lat: " + latitude + " Long: " + longitude )
+            console.log("Lat: " + latitude + " Long: " + longitude);
+            getWeatherJSON();
         });
     }
 });
