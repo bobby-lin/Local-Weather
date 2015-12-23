@@ -5,8 +5,24 @@
 
 var latitude = 0;
 var longitude = 0;
+var openWeather = "";
+
+function setOpenWeatherAPI() {
+    $.getJSON("config.json", function(data) {
+        var keys = Object.keys(data);
+        var arr = data[keys[0]];
+        arr.forEach(function(val){
+            var key = Object.keys(val);
+            if(key[0] === "OpenWeatherAPI") {
+                openWeather = val[key[0]];
+            }
+        });
+    });
+}
 
 $(document).ready(function() {
+    setOpenWeatherAPI();
+    
     if(navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
             latitude = position.coords.latitude;
